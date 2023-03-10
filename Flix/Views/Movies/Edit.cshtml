@@ -1,0 +1,106 @@
+﻿@model Flix.Models.Movies
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    img {
+        float: right;
+        max-height: 500px;
+        max-width: 337px;
+        min-height: 500px;
+        min-width: 337px;
+    }
+</style>
+
+<h1>Edit</h1>
+
+@*<h4>Movies</h4>*@
+<hr />
+@{ 
+    Model.Name = Model.Name.Replace("_", " ");
+}
+<img src=@Model.CoverPath alt=@Model.Name/>
+<div class="row">
+    <div class="col-lg-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" id="label" class="control-label"></label>
+                @*<input asp-for="Type" class="form-control" />*@
+                <select asp-for="Type" class="form-control">
+                    <option value="Movie">Movie</option>
+                    <option value="TV Show">TV Show</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="VideoPath" class="control-label"></label>
+                <input asp-for="VideoPath" class="form-control" readonly />
+                <span asp-validation-for="VideoPath" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="CoverPath" class="control-label"></label>
+                <input asp-for="CoverPath" class="form-control" readonly />
+                <span asp-validation-for="CoverPath" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UniqueName" class="control-label"></label>
+                <input asp-for="UniqueName" class="form-control" readonly />
+                <span asp-validation-for="UniqueName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="videoCategory" id="label" class="control-label"></label>
+                @*<input asp-for="Type" class="form-control" />*@
+                <select asp-for="videoCategory" class="form-control">
+                    <option value="Action">Action</option>
+                    <option value="Adult">Adult</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Animation">Animation</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Crime">Crime</option>
+                    <option value="Documentary">Documentary</option>
+                    <option value="Drama">Drama</option>
+                    <option value="History">History</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Family">Family</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Sport">Sport</option>
+                    <option value="War">War</option>
+                </select>
+                <span asp-validation-for="videoCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" id="label">Movie Description</label>
+                <textarea class="form-control" asp-for="Description" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @{
+
+        if (Model.Type == "Movie")
+        { <a id="redbutton" class="btn btn-danger" asp-controller="Movies" asp-action="Index">Back to List</a> }
+        else if (Model.Type == "TV Show")
+        { <a id="redbutton" class="btn btn-danger" asp-controller="Movies" asp-action="TvIndex">Back to List</a>}
+        else
+        { <a id="redbutton" class="btn btn-danger" asp-action="Index">Back to List</a>}
+
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,112 @@
+﻿@model IList<Flix.Models.Movies>
+
+@{
+    ViewData["Title"] = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body > div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    img {
+        box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+        justify-content: space-between;
+        max-height: 500px;
+        max-width: 337px;
+        min-height: 500px;
+        min-width: 337px;
+    }
+
+    body > a {
+        box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+    }
+
+
+    .img-container {
+        position: relative;
+        display: inline-block;
+    }
+
+        .img-container .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: opacity 500ms ease-in-out;
+        }
+
+        .img-container:hover .overlay {
+            opacity: 1;
+        }
+
+    .overlay span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        color: #fff;
+    }
+
+    #bottomright {
+        position: absolute;
+        bottom: 8px;
+        right: 16px;
+        font-size: 18px;
+        color: white;
+        font-weight: bold;
+    }
+
+    #container{
+        display: inline-block;
+        justify-content: space-between;
+    }
+</style>
+@if (User.IsInRole("Uploaders"))
+{
+    <p>
+        <a id="greenbutton" class="btn btn-primary" asp-action="Create">Add</a>
+    </p>
+}
+
+<div id="container">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <div id="container">
+
+            <div class="img-container">
+
+                <img src=@Model[i].CoverPath alt="@Model[i].Name" />
+
+                <a asp-action="Details" asp-route-id="@Model[i].ID">
+
+                    <div class="overlay">
+                        <h2>@Model[i].Name.Replace("_", " ").Replace("-", " ")</h2>
+                        @if (Model[i].Description.Length <= 174 || Model[i].Description == null)
+                        {
+                            <span>@Model[i].Description</span>
+                        }
+                        else if (Model[i].Description.Length >= 175)
+                        {
+                            string newDescription = Model[i].Description.Substring(0, 176) + "...";
+                            <span>@newDescription</span>
+                        }
+                    </div>
+                </a>
+                @if (Model[i].watched)
+                {
+                    <p id="bottomright">Watched</p>
+                }
+            </div>
+        </div>
+        if (i % 3 == 2)
+        {
+            <br />
+        }
+    }
+
+</div>

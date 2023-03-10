@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flix - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery-3.6.2.min.js"></script>
+    
+
+
+
+
+    <style>
+      
+        body {
+            background: -webkit-linear-gradient(360deg,#383836 10%,#4a4a4a 360%); 
+            background: linear-gradient(360deg,#383836 10%,#4a4a4a 360%);
+            /*background-color: #2b3e50;*/
+            padding-top: 85px;
+        }
+
+        footer {
+            background-color: #FFFFFF;
+            box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+        }
+        h5, h4, h2, h1, p, label{
+            color:white;
+        }
+       
+
+        .navbar {
+            box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+            
+        }
+
+        #greenbutton {
+            transition-duration: 0.4s;
+            box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+        }
+
+            #greenbutton:hover {
+                background-color: #4CAF50; /* Green */
+                color: white;
+            }
+
+        #redbutton {
+            transition-duration: 0.4s;
+            box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+        }
+
+            #redbutton:hover {
+                background-color: red;
+                color: white;
+            }
+
+        #goldbutton {
+            transition-duration: 0.4s;
+            box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+            background-color: darkgoldenrod;
+            border-radius: 50%;
+        }
+
+            #goldbutton:hover {
+                background-color: gold;
+                color: white;
+            }
+            #search{
+                max-height: 30px;
+                min-height: 30px;
+                margin-bottom: 10px;
+            }
+            
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+            <div class="container">
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Flix</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Information">Help</a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class=" nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Movies</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="TvIndex">Shows</a>
+                            </li>
+
+                            if (User.IsInRole("Administrators"))
+                            {
+                                <li class="dropdown nav-item">
+                                    <a class="dropdown-toggle nav-link text-dark" data-toggle="dropdown" href="#">
+                                        Admin <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link text-dark" asp-action="General" asp-controller="Administration">General</a></li>
+                                        <li class="nav-item"><a class="nav-link text-dark" asp-action="Index" asp-controller="Administration">Role Management</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <form id="search" class="form-inline" role="search">
+                                    <input id="search" type="text" name="id" class="form-control mr-sm-2" placeholder="Search">
+                                    <button type="submit" class="btn my-1" asp-area="" asp-controller="Movies" asp-action="Index">Submit</button>
+                                </form>
+                            </li>
+
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        @if (AdminSettings.ScheduledBool == true)
+        {
+            <div class="alert alert-dismissible alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Heads up!</strong> Maintenance has been scheduled for @AdminSettings.MaintenaceInfo at @AdminSettings.MaintenaceTimeInfo.
+            </div>
+        }
+        else if(AdminSettings.MaintenaceInfo == null || AdminSettings.ScheduledBool == false)
+        {
+            <div class="alert alert-dismissible alert-info" hidden>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                
+            </div>
+        }
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @*<footer class="border-top footer text-muted ">
+        <div class="container">
+            &copy; 2020 - Flix - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>*@
+    
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

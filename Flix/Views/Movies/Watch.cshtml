@@ -1,0 +1,23 @@
+﻿@model Flix.Models.Movies
+
+@{
+    Model.Name = Model.Name.Replace("_", " ");
+    ViewData["Title"] = @Html.DisplayFor(model => model.Name);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #404040;
+    }
+    footer {
+        background-color: #404040;
+    }
+</style>
+@*<h4><a asp-action="Index"> <- Back</a></h4>*@
+
+<video controls="controls" autoplay="autoplay" src="@Html.DisplayFor(model => model.VideoPath)" width="100%" height="100%">
+    Unable to display video. Try another browser.
+</video>
+
+

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+@*<table class="table">
+    <thead>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td style="color:white">
+                <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>*@
+<div class="card">
+    <div class="card-header">
+        <h2 style="color:black">Roles</h2>
+    </div>
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+        <div>
+            <a id="greenbutton" class="btn btn-success" asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+        </div><br />
+        }
+    </div>
+    <div class="card-footer">
+        
+    </div>
+</div>

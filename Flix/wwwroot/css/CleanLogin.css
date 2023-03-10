@@ -1,0 +1,61 @@
+
+.icon-w3 i {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.icon-w3 {
+    display: inline-block;
+    position: absolute;
+    right: 12px;
+    bottom: 26px;
+}
+
+.icons {
+    margin-top: 2em;
+    margin-left: 3em;
+}
+
+.social {
+    margin: 3em 0 0;
+}
+
+.icons a {
+    text-decoration: none;
+    color: #fff;
+}
+
+i.fa.fa-facebook, i.fa.fa-twitter, i.fa.fa-linkedin, i.fa.fa-pinterest-p, i.fa.fa-google {
+    padding: .5em 2em .5em 2em;
+    border: 0;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+}
+
+    i.fa.fa-facebook:hover, i.fa.fa-twitter:hover, i.fa.fa-linkedin:hover, i.fa.fa-pinterest-p:hover, i.fa.fa-google:hover {
+        background: transparent;
+        transition: 1s all;
+    }
+
+i.fa.fa-facebook {
+    background: #3b5998;
+}
+
+i.fa.fa-google {
+    background: #DB4437;
+}
+
+i.fa.fa-twitter {
+    background: #1da1f2;
+}
+
+i.fa.fa-linkedin {
+    background: #0077b5;
+}
+
+i.fa.fa-pinterest-p {
+    background: #bd081c;
+}
+
+/*--- Responsive Code ---*/

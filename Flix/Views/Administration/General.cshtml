@@ -1,0 +1,59 @@
+﻿@model Flix.Models.AdminSettings
+
+@{
+    ViewData["Title"] = "General Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>General</h1>
+
+<h4>AdminSettings</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="General">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Scheduled" /> @Html.DisplayNameFor(model => model.Scheduled)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceDate" class="control-label"></label>
+                <input type="date" asp-for="MaintenanceDate" class="form-control" />
+                <span asp-validation-for="MaintenanceDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaintenanceTime" class="control-label"></label>
+                <input type="time" asp-for="MaintenanceTime" class="form-control" />
+                <span asp-validation-for="MaintenanceTime" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="useExistingDirectory" /> @Html.DisplayNameFor(model => model.useExistingDirectory)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="directoryPath" class="control-label"></label>
+                <input type="text" asp-for="directoryPath" class="form-control" />
+                <span asp-validation-for="directoryPath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="directoryScannerInterval" class="control-label"></label>
+                <input type="text" asp-for="directoryScannerInterval" class="form-control" />
+                <span asp-validation-for="directoryScannerInterval" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input id="greenbutton" type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="form-group">
+            <a id="redbutton" asp-action="Clear" class="btn btn-danger">Reset</a>
+        </div>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

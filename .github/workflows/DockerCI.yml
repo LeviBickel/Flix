@@ -32,6 +32,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build Image
       working-directory: ./
-      run: dotnet publish -c Release -p:ContainerImageName=${{ secrets.DOCKER_USERNAME }}/Flix
+      run: dotnet publish -c Release -p:ContainerImageName=${{ secrets.DOCKER_USERNAME }}/flix
     - name: Push Image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/Flix --all-tags
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/flix --all-tags

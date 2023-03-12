@@ -5,11 +5,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Flix.Controllers
 {
@@ -177,6 +182,7 @@ namespace Flix.Controllers
             
             return View(moviesView);
         }
+        
 
         public async Task<bool> ScanDirectory()
         {
@@ -220,15 +226,37 @@ namespace Flix.Controllers
                             //import some sort of photo for the coverphoto
                             coverPhoto = "PlaceholderPath";
                         }
+                        ServicePointManager.Expect100Continue = true;
+                        var movieJSON = new HttpClient().GetStringAsync($"https://api.themoviedb.org/3/search/movie?api_key=c0237bf724826545f7da645d023f4ef3&language=en-US&query={movieName.Substring(0, movieName.IndexOf("."))}&page=1&include_adult=true").Result;
+                        var dynamicobject = JsonConvert.DeserializeObject<dynamic>(movieJSON);
+                        var description = dynamicobject.results[0].overview.ToString();
+                        var type = "";
+                        if (Enum.IsDefined(typeof(MovieGenres), (int) dynamicobject.results[0].genre_ids[0]))
+                        {
+                            type = "Movie";
+                        }
+                        else
+                        {
+                            type = "TV Show";
+                        }
+                        var videoCategory = "";
+                        if(type == "Movie")
+                        {
+                            videoCategory = Enum.GetName(typeof(MovieGenres), (int)dynamicobject.results[0].genre_ids[0]);
+                        }
+                        else
+                        {
+                            videoCategory = Enum.GetName(typeof(ShowGenres), (int)dynamicobject.results[0].genre_ids[0]);
+                        }
                         //this is a new movie
                         Movies newMovie = new Movies 
                         { 
                             Name = movieName,
-                            Description = "this should come from imdb source",
+                            Description = description,
                             CoverPath = coverPhoto,
-                            videoCategory = "Drama", //IMDB
+                            videoCategory = videoCategory,
                             VideoPath = file,
-                            Type = "Movie", //IMDB
+                            Type = type,
                             UniqueName = movieName
                         };
                         _context.Movies.Add(newMovie);
@@ -452,3 +480,49 @@ namespace Flix.Controllers
         }
     }
 }
+
+
+
+enum MovieGenres
+{
+    Action = 28,
+    Adventure = 12,
+    Animation = 16,
+    Comedy = 35,
+    Crime = 80,
+    Documentary = 99,
+    Drama = 18,
+    Family = 10751,
+    Fantasy = 14,
+    History = 36,
+    Horror = 27,
+    Music = 10402,
+    Mystery = 9648,
+    Romance = 10749,
+    ScienceFiction = 878,
+    TVMovie = 10770,
+    Thriller = 53,
+    War = 10752,
+    Western = 37
+}
+enum ShowGenres
+{
+    ActionAdventure = 10759,
+    Animation = 16,
+    Comedy = 35,
+    Crime = 80,
+    Documentary = 99,
+    Drama = 18,
+    Family = 10751,
+    Kids = 10762,
+    Mystery = 9648,
+    News = 10763,
+    Reality = 10764,
+    SciFiAndFantasy = 10765,
+    Soap = 10766,
+    Talk = 10767,
+    WarAndPolitics = 10768,
+    Western = 37
+}
+
+

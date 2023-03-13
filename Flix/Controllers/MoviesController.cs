@@ -25,10 +25,11 @@ namespace Flix.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IConfiguration _configuration;
         public bool watched = false;
-        public MoviesController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
+        public MoviesController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
         }
 
         // GET: Movies

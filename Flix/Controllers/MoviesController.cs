@@ -233,33 +233,27 @@ namespace Flix.Controllers
                         var dynamicobject = JsonConvert.DeserializeObject<dynamic>(movieJSON);
                         var description = dynamicobject.results[0].overview.ToString();
                         var type = "";
+                        var videoCategory = "";
                         if (Enum.IsDefined(typeof(MovieGenres), (int) dynamicobject.results[0].genre_ids[0]))
                         {
                             type = "Movie";
-                        }
-                        else
-                        {
-                            type = "TV Show";
-                        }
-                        var videoCategory = "";
-                        if(type == "Movie")
-                        {
                             videoCategory = Enum.GetName(typeof(MovieGenres), (int)dynamicobject.results[0].genre_ids[0]);
                         }
                         else
                         {
+                            type = "TV Show";
                             videoCategory = Enum.GetName(typeof(ShowGenres), (int)dynamicobject.results[0].genre_ids[0]);
                         }
                         //this is a new movie
                         Movies newMovie = new Movies 
                         { 
-                            Name = movieName,
+                            Name = movieName.Substring(0,movieName.LastIndexOf('.')),
                             Description = description,
                             CoverPath = coverPhoto,
                             videoCategory = videoCategory,
                             VideoPath = file,
                             Type = type,
-                            UniqueName = movieName
+                            UniqueName = movieName.Substring(0, movieName.LastIndexOf('.'))
                         };
                         _context.Movies.Add(newMovie);
                         _context.SaveChanges();

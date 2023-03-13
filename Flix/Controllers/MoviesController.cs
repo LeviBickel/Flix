@@ -14,7 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Extensions.Configuration;
 
 namespace Flix.Controllers
 {
@@ -23,6 +23,7 @@ namespace Flix.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IConfiguration _configuration;
         public bool watched = false;
         public MoviesController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
@@ -227,7 +228,7 @@ namespace Flix.Controllers
                             coverPhoto = "PlaceholderPath";
                         }
                         ServicePointManager.Expect100Continue = true;
-                        var movieJSON = new HttpClient().GetStringAsync($"https://api.themoviedb.org/3/search/movie?api_key=c0237bf724826545f7da645d023f4ef3&language=en-US&query={movieName.Substring(0, movieName.IndexOf("."))}&page=1&include_adult=true").Result;
+                        var movieJSON = new HttpClient().GetStringAsync($"https://api.themoviedb.org/3/search/movie?api_key={_configuration["TMDB:APIToken"]}&language=en-US&query={movieName.Substring(0, movieName.IndexOf("."))}&page=1&include_adult=true").Result;
                         var dynamicobject = JsonConvert.DeserializeObject<dynamic>(movieJSON);
                         var description = dynamicobject.results[0].overview.ToString();
                         var type = "";
